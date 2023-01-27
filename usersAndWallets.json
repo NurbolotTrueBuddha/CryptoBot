@@ -1,0 +1,51 @@
+{
+  "Nurbolot": {
+    "login": "",
+    "password": "",
+    "ID": "",
+    "wallets": [
+      {
+        "adress": "",
+        "pk": ""
+      }
+    ]
+  },
+  "Zelya": {
+    "login": "zelyasuper",
+    "password": "pasword1233",
+    "ID": 450797571,
+    "wallets": [
+      {
+        "adress": "0x20B72Dc2eFAC805c73B26161e42B6331D05AcC84",
+        "pk": "0x5f115e2037ba613d370a48d7364494224614cf75f3ed8614ec15c8a69e386d31"
+      },
+      {
+        "adress": "0xE6E08ed632e09F03FfD2306A5C18a4870F82d3B4",
+        "pk": "0x0dbb74df96e0d671844e9be3d5e1441e6aab662bc7dcce346fde3a893fe037f8"
+      },
+      {
+        "adress": "0x1292FcD0bf29aA420b6F3c0E04804A1bcbe4B846",
+        "pk": "0xcf58431bc06d7124f814cec1e3449a1c8024ed2049f5819310786bc65674bb68"
+      },
+      {
+        "adress": "0x87bFD35bcC1c5EC9fe570e7272fA0C6BB563b355",
+        "pk": "0x3f1200dcea4d6b686a75fbcd40ca87c7aa65f4e38e183c58949c4d1501da8e07"
+      }
+    ]
+  },
+  "Nurba": {
+    "login": "TrueBuddha",
+    "password": "killa",
+    "ID": 5319236608,
+    "wallets": [
+      {
+        "adress": "0x533648Ea0B2efff4125F690c96E81b7a61995Da3",
+        "pk": "0x913a0d46f247f25279afb78a7217e3a259c47ad594af1c6de5df74ec197ee3ff"
+      },
+      {
+        "adress": "0xCa9eCfc099FE059a658F64a3c4C5e40fc849eC0e",
+        "pk": "0x02b615bb3d5bc1c9c0af3abf4f0931591c69a6e2e59d1e74b5e5488c1960b87b"
+      }
+    ]
+  }
+}
