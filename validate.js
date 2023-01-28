@@ -15,6 +15,8 @@ export default class Validate {
         else if(this.addRecieverCmd(msg)) this.handler.addRecieverMsg(msg);
         else if(this.addRecieverCheckCmd(msg)) await this.handler.addRecieverCheckMsg(msg);
         else if(this.getRecieversCmd(msg)) this.handler.getRecieversMsg(msg);
+        else if(this.getBalanceCmd(msg)) this.handler.getBalanceMsg(msg);
+        else if(this.CheckBalanceCmd(msg)) await this.handler.CheckBalanceMsg(msg);
         
         else console.log('not correct command');
     }
@@ -121,7 +123,7 @@ export default class Validate {
     }
     CheckBalanceCmd(msg){
         let { text } = msg;
-        if(text.includes('address:0x')) {
+        if(text.includes('Balance?')) {
             return true;
         }
         else {

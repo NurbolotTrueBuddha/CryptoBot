@@ -126,5 +126,31 @@ export default class Handler {
             }
         }
     }
-    
+    getBalanceMsg(msg) {
+        let { from: { id } } = msg;
+        this.bot.sendMessage(id, `Введите адресс получателя в формате 'Balance?0x12312312312312', без ковычек!`)
+    }
+    async CheckBalanceMsg(msg) {
+        let { from: { id }, text } = msg;
+        let userData = await fs.readFile('./usersAndWallets.json', { encoding: 'utf8' });
+        let converted = await JSON.parse(userData);
+        text = text.split('?')
+        text = text[1]
+        let flag = false
+        for (let key in converted) {
+            if (converted[key].ID == String(id)) {
+                console.log('done')
+                flag = true
+                break
+            }
+        }
+        if(flag){
+            const balance = await this.web3.eth.getBalance(text);
+            await this.bot.sendMessage(id, balance)
+        }
+        else{
+            console.log('not work')
+        }
+        
+    }
 }
