@@ -19,8 +19,9 @@ export default class Handler {
         converted[text[0]] = {
             login: text[1],
             password: text[2],
-            ID: id,
-            wallets: []
+            ID: String(id),
+            wallets: [],
+            recievers: []
         }
         converted = JSON.stringify(converted, null, 2)
         await fs.writeFile('./usersAndWallets.json', converted);
@@ -36,8 +37,12 @@ export default class Handler {
         let converted = JSON.parse(userData);
         let flag = false
         for (let key in converted) {
-            if (converted[key].login == text[1] && converted[key].password == text[2] && converted[key].ID == id) {
+            if (converted[key].login == text[1] && converted[key].password == text[2]) {
+                converted[key].ID = String(id)
+                converted = JSON.stringify(converted, null, 2)
+                await fs.writeFile('./usersAndWallets.json', converted);
                 flag = true
+                break;
             }
         }
         if (flag) {
@@ -51,7 +56,7 @@ export default class Handler {
         let converted = await JSON.parse(userData);
 
         for (let key in converted) {
-            if (converted[key].ID == id) {
+            if (converted[key].ID == String(id)) {
                 let account = { adress: newAccount.address, pk: newAccount.privateKey }
                 let len = await converted[key].wallets.length
                 converted[key].wallets[len] = account
@@ -67,21 +72,20 @@ export default class Handler {
         let userData = await fs.readFile('./usersAndWallets.json', { encoding: 'utf8' });
         let converted = await JSON.parse(userData);
         for (let key in converted) {
-            if (converted[key].ID == id) {
+            if (converted[key].ID == String(id)) {
                 await this.bot.sendMessage(id, 'Your wallets adress')
                 for(let i = 0; i < converted[key].wallets.length; i ++){
-                    await this.bot.sendMessage(id, (i + 1) + " " + converted[key].wallets[i].adress)
+                   await this.bot.sendMessage(id, (i + 1) + " " + converted[key].wallets[i].adress)
                 }
             }
         }
-
     }
     async getPrivateKeyMsg(msg){
         let { chat: { id } } = msg
         let userData = await fs.readFile('./usersAndWallets.json', { encoding: 'utf8' });
         let converted = await JSON.parse(userData);
         for (let key in converted) {
-            if (converted[key].ID == id) {
+            if (converted[key].ID == String(id)) {
                 await this.bot.sendMessage(id, 'Your wallets privat keys')
                 for(let i = 0; i < converted[key].wallets.length; i ++){
                     await this.bot.sendMessage(id, (i + 1) + " " + converted[key].wallets[i].pk)
@@ -89,5 +93,38 @@ export default class Handler {
             }
         }
     }
-
+    addRecieverMsg(msg){
+        this.bot.sendMessage(msg.from.id, 'Введите данные контакта в формате имя_address')
+    }
+    async addRecieverCheckMsg(msg){
+        
+        let { chat: { id },text } = msg
+        let userData = await fs.readFile('./usersAndWallets.json', { encoding: 'utf8' });
+        let converted = await JSON.parse(userData);
+        text = text.split('_');
+        for(let key in converted) {
+            if (converted[key].ID == String(id)) {
+                
+                let len = converted[key].recievers.length;
+                converted[key].recievers[len] = {name: text[0], adress : text[1]}
+                converted = JSON.stringify(converted, null, 2)
+                await fs.writeFile('./usersAndWallets.json', converted);
+                break;
+            }
+        }
+    }
+    async getRecieversMsg(msg) {
+        let { chat: { id } } = msg
+        let userData = await fs.readFile('./usersAndWallets.json', { encoding: 'utf8' });
+        let converted = await JSON.parse(userData);
+        for (let key in converted) {
+            if (converted[key].ID == String(id)) {
+                await this.bot.sendMessage(id, 'Your recievers')
+                for(let i = 0; i < converted[key].recievers.length; i ++){
+                   await this.bot.sendMessage(id, (i + 1) + " " + converted[key].recievers[i].name + " " + converted[key].recievers[i].adress)
+                }
+            }
+        }
+    }
+    
 }
