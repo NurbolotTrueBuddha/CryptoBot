@@ -153,4 +153,48 @@ export default class Handler {
         }
         
     }
+    sendMsg(msg){
+        let {from:{id}} = msg
+        this.bot.sendMessage(id, 'Введите адрес кошелька с которого хотите отправить и адрес получателя в формате fromAddress>toAddress>amountBnb')
+    }
+    async doSendMsg(msg){
+        let { from: { id }, text } = msg;
+        let userData = await fs.readFile('./usersAndWallets.json', { encoding: 'utf8' });
+        let converted = await JSON.parse(userData);
+        text = text.split('>')
+        let flag = false
+        for (let key in converted) {
+            if (converted[key].ID == String(id)) {
+                console.log(converted[key].wallets.adress)
+                for(let i = 0; i < converted[key].wallets.length; i ++){
+                    if(converted[key].wallets[i].adress == text[0]){
+                        console.log(text)
+
+                        let txData = {
+                            from: text[0],
+                            to: text[1],
+                            value: text[2],
+                            gas: 100000
+                        }
+
+                        let txSigned = await this.web3.eth.accounts.signTransaction(txData, converted[key].wallets[i].pk);
+                        try {
+                            let txResult = await this.web3.eth.sendSignedTransaction(txSigned.rawTransaction)
+                            console.log('txHx ->', txResult);
+
+                            return txResult
+                        } catch (error) {
+                            console.log('error ->', error)
+                        }
+                        break;
+                    }
+                }
+                
+                flag = true
+                break
+            }
+        }
+        
+
+    }
 }
