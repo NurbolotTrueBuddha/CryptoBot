@@ -17,6 +17,8 @@ export default class Validate {
         else if(this.getRecieversCmd(msg)) this.handler.getRecieversMsg(msg);
         else if(this.getBalanceCmd(msg)) this.handler.getBalanceMsg(msg);
         else if(this.CheckBalanceCmd(msg)) await this.handler.CheckBalanceMsg(msg);
+        else if(this.sendCmd(msg)) this.handler.sendMsg(msg);
+        else if(this.doSendCmd(msg)) await this.handler.doSendMsg(msg);
         
         else console.log('not correct command');
     }
@@ -128,6 +130,24 @@ export default class Validate {
         }
         else {
             return false;
+        }
+    }
+    sendCmd(msg){
+        let {text} = msg;
+        if(text == '/send'){
+            return true;
+        }
+        else{
+            return false
+        }
+    }
+    doSendCmd(msg){
+        let {text } = msg;
+        if(text.includes('>')){
+            return true
+        }
+        else{
+            return false
         }
     }
 
